@@ -32,11 +32,16 @@ export class TasksComponent implements OnInit, OnDestroy {
   constructor() {}
 
   ngOnInit(): void {
+    /**
+     * Getting  task list from Local storage
+     */
     this.taskList = Object.values(
       JSON.parse(localStorage.getItem('tasks') as string) || []
     );
+    // Looping through each task to get status of each task and show button status
     this.taskList.forEach((task: Task) => {
       this.taskEventTypes[task.id] = task.isActive ? 'Stop' : 'Start';
+
       if (task.isActive) {
         this.startStopTimer('Start', task.id, true);
       }
@@ -48,9 +53,16 @@ export class TasksComponent implements OnInit, OnDestroy {
       this.taskTimerHistory[task.id] = task.timerHistory;
     });
   }
-
+  /**
+   *
+   * @param eventType
+   * @param taskId
+   * @param isInit
+   * To Start or Stop timer on each task
+   */
   startStopTimer(eventType: string, taskId: string, isInit?: boolean) {
     const tasks = JSON.parse(localStorage.getItem('tasks') as string);
+    //To handle timer on each task
     if (eventType === 'Start') {
       if (!isInit) {
         this.taskEventTypes[taskId] = 'Stop';
@@ -65,11 +77,13 @@ export class TasksComponent implements OnInit, OnDestroy {
       this.taskIntervals[taskId] = setInterval(() => {
         let updateTimeSpent = false;
         this.taskLogs[taskId].seconds += 1;
+        //To increase minutes count after 60 sec
         if (this.taskLogs[taskId].seconds === 60) {
           updateTimeSpent = true;
           this.taskLogs[taskId].seconds = 0;
           this.taskLogs[taskId].minutes += 1;
         }
+        //To increase hours count after 60 min
         if (this.taskLogs[taskId].minutes === 60) {
           updateTimeSpent = true;
           this.taskLogs[taskId].minutes = 0;
@@ -84,6 +98,7 @@ export class TasksComponent implements OnInit, OnDestroy {
           window.dispatchEvent(new Event('storage'));
         }
       }, 1000);
+      //To calculate time stamp and updating to the local storage after user has stoped timer
     } else if (eventType === 'Stop') {
       this.taskEventTypes[taskId] = 'Start';
       clearInterval(this.taskIntervals[taskId]);
@@ -97,7 +112,10 @@ export class TasksComponent implements OnInit, OnDestroy {
       localStorage.setItem('tasks', JSON.stringify(tasks));
     }
   }
-
+  /**
+   * @param taskId
+   * To remove task from Tasklist
+   */
   removeTask(taskId: string) {
     const taskList = JSON.parse(localStorage.getItem('tasks') as string) || {};
     delete taskList[taskId];
@@ -106,9 +124,13 @@ export class TasksComponent implements OnInit, OnDestroy {
     window.dispatchEvent(new Event('storage'));
     clearInterval(this.taskIntervals[taskId]);
   }
-
+  /**
+   * @method saveTask
+   * Saving the task in localStorage if title isn't empty
+   */
   saveTask() {
     if (this.taskTitle.trim() !== '') {
+      // Generating unique id for task
       this.task.id = crypto.randomUUID();
       const tasks = JSON.parse(localStorage.getItem('tasks') as string) || {};
       tasks[this.task.id] = { ...this.task, title: this.taskTitle };
@@ -125,7 +147,7 @@ export class TasksComponent implements OnInit, OnDestroy {
       this.isShowError = true;
     }
   }
-
+  //To open dialog for adding a new task
   openAddTaskModal() {
     this.isModalVisible = true;
   }

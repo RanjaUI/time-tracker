@@ -4,6 +4,10 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'date',
 })
 export class DatePipe implements PipeTransform {
+  /**
+   * @param ts Timestamp
+   * @returns Formatted String
+   */
   transform(ts: Date): string {
     const value = new Date(ts);
     if (!value) {

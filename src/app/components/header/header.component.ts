@@ -7,6 +7,9 @@ import { Task, TimeSpent } from '../shared/task';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent implements OnInit {
+  /**
+   * On any changes in local storage , Total time spent need to be update in header component
+   */
   @HostListener('window:storage')
   onStorageChange() {
     this.setTotalTimeSpent();
@@ -16,11 +19,15 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.setTotalTimeSpent();
   }
-
+  /**
+   * To Show total Time spent
+   */
   setTotalTimeSpent() {
+    //Getting  task list from Local storage
     const tasks: Task[] = Object.values(
       JSON.parse(localStorage.getItem('tasks') as string)
     );
+    //Updating total time spent in hours and minutes
     const timeSpent: TimeSpent = tasks.reduce(
       (acc: TimeSpent, task: Task) => {
         acc.hours += task.timeElapsed?.hours || 0;
@@ -29,6 +36,7 @@ export class HeaderComponent implements OnInit {
       },
       { hours: 0, mins: 0 }
     );
+    //Calculating and updating minutes and hours
     if (timeSpent.mins > 60) {
       const hours = Math.floor(timeSpent.mins / 60);
       timeSpent.hours += hours;
