@@ -1,0 +1,106 @@
+<!-- *ngFor="let task of tasks" -->
+<!-- {{ product.description }}
+{{ task.name }} -->
+<ng-container class="p-col-12" *ngFor="let task of taskList">
+  <div class="task-item">
+    <div class="task-item-detail">
+      <div class="task-action-items">
+        <p class="task-title">{{ task.title }}</p>
+        <div class="task-item-inner">
+          <span class="divider"></span>
+          <div class="timer">
+            <span>{{ taskLogs[task.id].hours | number : "2.0-0" }}</span>
+            : <span>{{ taskLogs[task.id].minutes | number : "2.0-0" }}</span> :
+            <span>{{ taskLogs[task.id].seconds | number : "2.0-0" }}</span>
+          </div>
+          <p-button
+            label="{{ taskEventTypes[task.id] }}"
+            [rounded]="true"
+            [styleClass]="
+              taskEventTypes[task.id] === 'Start'
+                ? 'timer-action start'
+                : 'timer-action stop'
+            "
+            (onClick)="startStopTimer(taskEventTypes[task.id], task.id)"
+          ></p-button>
+          <p-button
+            icon="pi pi-times"
+            styleClass="remove-task"
+            [rounded]="true"
+            (onClick)="removeTask(task.id)"
+          ></p-button>
+        </div>
+      </div>
+      <div class="task-history">
+        <p class="task-history-header">History</p>
+        <div
+          class="no-history"
+          *ngIf="
+            !taskTimerHistory[task.id] ||
+              taskTimerHistory[task.id].length === 0;
+            else showTimeStamp
+          "
+        >
+          <span>
+            No History Found, Click on the start button to track the timer
+          </span>
+        </div>
+        <ng-template #showTimeStamp>
+          <div class="history-list">
+            <div *ngFor="let history of taskTimerHistory[task.id]">
+              <span *ngIf="history.stoppedAt === null; else notActive">
+                Started the timer at {{ history.startedAt | date }} (Active)
+              </span>
+              <ng-template #notActive>
+                Started the timer at {{ history.startedAt | date }} & Stopped at
+                {{ history.stoppedAt | date }}
+              </ng-template>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<div class="no-tasks" *ngIf="taskList.length === 0">
+  <span>No tasks found!</span>
+</div>
+
+<div class="add-task">
+  <p-button
+    icon="pi pi-plus"
+    [rounded]="true"
+    styleClass="add-task"
+    (click)="openAddTaskModal()"
+  ></p-button>
+</div>
+<div class="flex justify-content-center">
+  <p-dialog
+    [modal]="true"
+    [(visible)]="isModalVisible"
+    [draggable]="false"
+    [resizable]="false"
+    [closable]="false"
+    styleClass="add-task-dialog"
+  >
+    <p class="header-text">Enter the Task Name</p>
+    <input
+      type="text"
+      class="task-input"
+      (keyup)="(true)"
+      [(ngModel)]="taskTitle"
+    />
+    <p
+      *ngIf="isShowError"
+      style="margin-bottom: 0; color: var(--app-warm-color)"
+    >
+      Please enter a valid title
+    </p>
+    <p-button
+      label="Save"
+      styleClass="save-task"
+      (click)="saveTask()"
+    ></p-button>
+  </p-dialog>
+</div>

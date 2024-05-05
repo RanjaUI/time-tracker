@@ -1,0 +1,159 @@
+:host ::ng-deep {
+  .task-item {
+    display: flex;
+    padding: 24px 25px;
+    margin-inline: auto;
+    max-width: var(--app-container-width);
+    border-radius: var(--app-card-radius);
+    margin-top: 30px;
+    background-color: #ffffff;
+    box-shadow: var(--app-card-box-shadow);
+    .task-item-detail {
+      flex: 1 1 0;
+      .task-action-items {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .task-title {
+          font-size: var(--app-header-font-size);
+          font-weight: 600;
+          margin: 0;
+        }
+        .task-item-inner {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 20px;
+          .divider {
+            width: 2px;
+            height: 40px;
+            background-color: #d9d9d9;
+          }
+          .timer {
+            margin-right: 50px;
+            color: var(--app-primary-color);
+            font-weight: 500;
+            font-size: var(--app-base-font-size);
+          }
+          .timer-action {
+            width: 136px;
+            height: 40px;
+            border-radius: 50px;
+            border: none;
+            outline: none;
+            .p-button-label {
+              font-size: var(--app-base-font-size);
+              font-weight: 500;
+            }
+          }
+          .timer-action.start {
+            background-color: var(--app-primary-color);
+          }
+          .timer-action.stop {
+            background-color: var(--app-warm-color);
+          }
+          .remove-task {
+            height: 40px;
+            width: 40px;
+            border: none;
+            background-color: #d9d9d9;
+            .p-button-icon {
+              color: #00000099;
+            }
+          }
+        }
+      }
+    }
+
+    .task-history {
+      margin-top: 15px;
+      .task-history-header {
+        margin: 0;
+        font-size: var(--app-base-font-size);
+        font-weight: 500;
+      }
+      .no-history {
+        margin-top: 15px;
+        font-size: 14px;
+        color: var(--app-history-text-color);
+      }
+      .history-list {
+        margin-top: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        font-size: 14px;
+        color: var(--app-history-text-color);
+      }
+    }
+  }
+  .no-tasks {
+    text-align: center;
+    margin-top: 20px;
+  }
+}
+
+:host::ng-deep {
+  .add-task {
+    position: fixed;
+    right: 50px;
+    bottom: 30px;
+    background: var(--app-primary-color);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: none;
+  }
+  .p-component-overlay {
+    background-color: var(--app-overlay-backdrop) !important;
+  }
+  .add-task-dialog {
+    min-width: 646px;
+    min-height: 240px;
+    border-radius: var(--app-card-radius);
+    .p-dialog-header {
+      padding: 10px;
+      border-top-left-radius: var(--app-card-radius);
+      border-top-right-radius: var(--app-card-radius);
+    }
+    .p-dialog-content {
+      border-bottom-left-radius: var(--app-card-radius);
+      border-bottom-right-radius: var(--app-card-radius);
+      padding-inline: 48px;
+      padding-bottom: 48px;
+      padding-top: 10px;
+      .header-text {
+        font-size: var(--app-base-font-size);
+        margin-bottom: 20px;
+        margin-top: 0px;
+        color: var(--app-base-text-color);
+      }
+      .task-input {
+        min-width: 100%;
+        min-height: 40px;
+        border-radius: 8px;
+        border: 1px solid #00000033;
+        padding-inline: 10px;
+      }
+      .save-task {
+        margin-top: 30px;
+        width: 136px;
+        height: 40px;
+        background: var(--app-primary-color);
+        border-radius: 57px;
+        border: none;
+        .p-button-label {
+          font-size: var(--app-base-font-size);
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  :host::ng-deep .add-task-dialog {
+    min-width: 90%;
+    min-height: auto;
+  }
+}

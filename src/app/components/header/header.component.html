@@ -1,0 +1,26 @@
+<p-toolbar
+  [style]="{
+    'border-radius': '0px',
+    padding: '0px',
+    height: '60px',
+    position: 'sticky',
+    top: '0px',
+    'z-index': '1'
+  }"
+>
+  <div class="header-container">
+    <div class="p-toolbar-group-start">
+      <img
+        src="https://open-frontend-bucket.s3.amazonaws.com/interviews/001/logo.svg"
+      />
+    </div>
+    <div class="p-toolbar-group-end">
+      <div class="time-spent">
+        <span class="time-text">Total Time Spend</span>
+        <span class="time-value">
+          {{ totalTimeSpent.hours }} hr {{ totalTimeSpent.mins }} min
+        </span>
+      </div>
+    </div>
+  </div>
+</p-toolbar>

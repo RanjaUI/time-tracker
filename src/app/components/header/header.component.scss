@@ -1,0 +1,25 @@
+:host ::ng-deep {
+  .header-container {
+    max-width: var(--app-container-width);
+    margin-inline: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    .time-spent {
+      display: flex;
+      flex-direction: row;
+      gap: 15px;
+      .time-text {
+        font-size: var(--app-base-font-size);
+        color: var(--app-base-text-color);
+      }
+      .time-value {
+        font-size: var(--app-base-font-size);
+        font-weight: 500;
+        color: #000000;
+      }
+    }
+  }
+}
